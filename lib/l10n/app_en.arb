@@ -1,0 +1,8 @@
+{
+  "@@locale": "en",
+  "loginTitle": "App name",
+  "@loginTitle": {
+    "description": "Page title",
+    "context": "LoginPage"
+  }
+}
