@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:onlab1/config/color_constants.dart';
 
 class CustomRangeSlider extends StatefulWidget {
   final String label;
@@ -56,12 +57,12 @@ class _CustomRangeSlider extends State<CustomRangeSlider> {
         ),
         SliderTheme(
           data: SliderThemeData(
-            activeTrackColor: const Color.fromRGBO(255, 79, 99, 1.0),
-            inactiveTrackColor: const Color.fromRGBO(236, 236, 236, 1.0),
-            thumbColor: const Color.fromRGBO(255, 79, 99, 1.0),
-            overlayColor: const Color.fromRGBO(255, 181, 138, 0.2),
+            activeTrackColor: ColorConstants.primary,
+            inactiveTrackColor: ColorConstants.grayLight,
+            thumbColor: ColorConstants.primary,
+            overlayColor: ColorConstants.primaryLightGradient,
             trackHeight: 2.h,
-            valueIndicatorColor: const Color.fromRGBO(236, 236, 236, 0.8),
+            valueIndicatorColor: ColorConstants.grayLight,
             valueIndicatorTextStyle: Theme.of(context).textTheme.bodyText1,
           ),
           child: RangeSlider(

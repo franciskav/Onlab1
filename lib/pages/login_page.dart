@@ -26,7 +26,6 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       appBar: AppBar(
           title: const Text("App név"),
-          centerTitle: true,
           toolbarHeight: 150.h,
           titleTextStyle: Theme.of(context).textTheme.headline1,
           flexibleSpace: const GradientBackground()),
@@ -42,6 +41,8 @@ class _LoginPageState extends State<LoginPage> {
               const CustomTextField(
                 state: "",
                 label: "Email:",
+                textInputType: TextInputType.emailAddress,
+                multiLine: true,
               ),
               SizedBox(
                 height: 10.h,
@@ -49,6 +50,8 @@ class _LoginPageState extends State<LoginPage> {
               const CustomTextField(
                 state: "",
                 label: "Jelszó:",
+                textInputType: TextInputType.visiblePassword,
+                obscureText: true,
               ),
               SizedBox(
                 height: 50.h,

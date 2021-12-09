@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:onlab1/config/color_constants.dart';
 
 class GradientBackground extends StatelessWidget {
   const GradientBackground({Key? key}) : super(key: key);
@@ -11,7 +12,7 @@ class GradientBackground extends StatelessWidget {
               begin: Alignment.bottomLeft,
               end: Alignment.topRight,
               stops: [0.0, 0.4],
-              colors: [Color(0xFFFFB58A), Color(0xFFFF4F63)])),
+              colors: [ColorConstants.primaryLight, ColorConstants.primary])),
     );
   }
 }

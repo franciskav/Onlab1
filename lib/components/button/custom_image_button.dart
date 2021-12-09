@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:onlab1/config/color_constants.dart';
 
 class CustomImageButton extends StatelessWidget {
   final String text;
   final void Function()? onPressed;
   final bool disabled;
   final IconData icon;
-  final String label;
+  final String? label;
 
   const CustomImageButton(
       {Key? key,
@@ -14,7 +15,7 @@ class CustomImageButton extends StatelessWidget {
       required this.onPressed,
       required this.disabled,
       required this.icon,
-      required this.label})
+      this.label})
       : super(key: key);
 
   @override
@@ -22,13 +23,19 @@ class CustomImageButton extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 15.w),
-          child: Text(
-            label.toUpperCase(),
-            style: Theme.of(context).textTheme.caption,
-          ),
-        ),
+        (() {
+          if (label != null) {
+            return Padding(
+              padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 15.w),
+              child: Text(
+                label!.toUpperCase(),
+                style: Theme.of(context).textTheme.caption,
+              ),
+            );
+          } else {
+            return const SizedBox(height: 0,);
+          }
+        }()),
         TextButton(
             onPressed: onPressed,
             child: Padding(
@@ -41,10 +48,7 @@ class CustomImageButton extends StatelessWidget {
                       style: Theme.of(context).textTheme.bodyText1,
                     ),
                   ),
-                  Icon(
-                    icon,
-                    color: const Color.fromRGBO(76, 76, 76, 1.0),
-                  ),
+                  Icon(icon, color: ColorConstants.grayDark),
                 ],
               ),
             ),
@@ -54,10 +58,10 @@ class CustomImageButton extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30.h),
                   ),
                 ),
-                backgroundColor: MaterialStateProperty.all<Color>(
-                    const Color.fromRGBO(236, 236, 236, 1.0)),
+                backgroundColor:
+                    MaterialStateProperty.all<Color>(ColorConstants.grayLight),
                 overlayColor: MaterialStateProperty.all<Color>(
-                    const Color.fromRGBO(255, 181, 138, 0.2)),
+                    ColorConstants.primaryLight),
                 minimumSize: MaterialStateProperty.all<Size>(
                     Size(double.infinity, 40.h)))),
       ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:onlab1/config/color_constants.dart';
 
 enum Type { facebook, google, plus }
 
@@ -18,10 +19,10 @@ class CustomIconButton extends StatelessWidget {
       child: Ink(
         decoration: ShapeDecoration(
             color: type == Type.facebook
-                ? Colors.white
+                ? ColorConstants.white
                 : type == Type.google
-                    ? const Color.fromRGBO(219, 68, 55, 1)
-                    : const Color.fromRGBO(236, 236, 236, 1),
+                    ? ColorConstants.google
+                    : ColorConstants.grayLight,
             shape: const CircleBorder()),
         child: IconButton(
             onPressed: onPressed,
@@ -31,17 +32,17 @@ class CustomIconButton extends StatelessWidget {
             icon: type == Type.facebook
                 ? const Icon(
                     Icons.facebook,
-                    color: Color.fromRGBO(66, 103, 178, 1),
+                    color: ColorConstants.facebook,
                   )
                 : type == Type.google
                     ? const Icon(
                         Icons.email_outlined,
-                        color: Colors.white,
+                        color: ColorConstants.white,
                         size: 50,
                       )
                     : const Icon(
                         Icons.add_rounded,
-                        color: Color.fromRGBO(76, 76, 76, 1),
+                        color: ColorConstants.grayDark,
                       )),
       ),
     );

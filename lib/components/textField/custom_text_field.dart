@@ -1,24 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:onlab1/config/color_constants.dart';
 
 class CustomTextField extends StatefulWidget {
   final String state;
   final String label;
-  final bool? isMultiline;
+  final TextInputType? textInputType;
+  final bool? obscureText;
+  final bool? multiLine;
 
   const CustomTextField(
-      {Key? key, required this.state, required this.label, this.isMultiline})
+      {Key? key, required this.state, required this.label, this.textInputType, this.obscureText, this.multiLine})
       : super(key: key);
 
   @override
-  _CustomTextField createState() => _CustomTextField(state, label, isMultiline);
+  _CustomTextField createState() => _CustomTextField(state, label, textInputType, obscureText ?? false, multiLine ?? false);
 }
 
 class _CustomTextField extends State<CustomTextField> {
   String state;
   String label;
-  bool? isMultiline;
-  _CustomTextField(this.state, this.label, this.isMultiline);
+  TextInputType? textInputType;
+  bool obscureText;
+  bool multiLine;
+  _CustomTextField(this.state, this.label, this.textInputType, this.obscureText, this.multiLine);
 
   late TextEditingController _controller;
 
@@ -52,24 +57,24 @@ class _CustomTextField extends State<CustomTextField> {
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30.h),
                   borderSide: const BorderSide(
-                      color: Color.fromRGBO(236, 236, 236, 1.0), width: 0)),
+                      color: ColorConstants.grayLight, width: 0)),
               enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30.h),
                   borderSide: const BorderSide(
-                      color: Color.fromRGBO(236, 236, 236, 1.0), width: 0)),
+                      color: ColorConstants.grayLight, width: 0)),
               focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30.h),
                   borderSide: const BorderSide(
-                      color: Color.fromRGBO(143, 142, 142, 1.0), width: 1)),
+                      color: ColorConstants.gray, width: 1)),
               filled: true,
-              fillColor: const Color.fromRGBO(236, 236, 236, 1.0),
+              fillColor: ColorConstants.grayLight,
               contentPadding:
                   EdgeInsets.symmetric(vertical: 10.h, horizontal: 15.w)),
           style: Theme.of(context).textTheme.bodyText1,
           minLines: 1,
-          maxLines: 5,
-          keyboardType: TextInputType.multiline,
-          //expands: true,
+          maxLines: !obscureText && multiLine ? 5 : 1,
+          keyboardType: textInputType,
+          obscureText: obscureText,
         ),
       ],
     );

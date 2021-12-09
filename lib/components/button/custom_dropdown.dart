@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:onlab1/config/color_constants.dart';
 
 class CustomDropdown extends StatefulWidget {
   final String? value;
@@ -47,18 +48,17 @@ class _CustomDropdown extends State<CustomDropdown> {
           decoration: InputDecoration(
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30.h),
-                  borderSide: const BorderSide(
-                      color: Color.fromRGBO(236, 236, 236, 1.0), width: 0)),
+                  borderSide:
+                      const BorderSide(color: ColorConstants.grayLight, width: 0)),
               enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30.h),
-                  borderSide: const BorderSide(
-                      color: Color.fromRGBO(236, 236, 236, 1.0), width: 0)),
+                  borderSide:
+                      const BorderSide(color: ColorConstants.grayLight, width: 0)),
               focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30.h),
-                  borderSide: BorderSide(
-                      color: const Color.fromRGBO(143, 142, 142, 1.0), width: 1.w)),
+                  borderSide: BorderSide(color: ColorConstants.gray, width: 1.w)),
               filled: true,
-              fillColor: const Color.fromRGBO(236, 236, 236, 1.0),
+              fillColor: ColorConstants.grayLight,
               contentPadding:
                   EdgeInsets.symmetric(vertical: 10.h, horizontal: 15.w)),
           style: Theme.of(context).textTheme.bodyText1,

@@ -7,9 +7,14 @@ import 'package:onlab1/components/button/custom_dropdown.dart';
 import 'package:onlab1/components/button/custom_icon_button.dart';
 import 'package:onlab1/components/slider/custom_range_slider.dart';
 import 'package:onlab1/components/textField/custom_text_field.dart';
+import 'package:onlab1/config/theme_config.dart';
+import 'package:onlab1/pages/chat_page.dart';
+import 'package:onlab1/pages/child_profile_page.dart';
+import 'package:onlab1/pages/edit_child_profile_page.dart';
 import 'package:onlab1/pages/edit_profile_page.dart';
 import 'package:onlab1/pages/login_page.dart';
 import 'package:onlab1/pages/main_page.dart';
+import 'package:onlab1/pages/profile_page.dart';
 import 'package:onlab1/pages/sign_up_page.dart';
 
 import 'components/button/custom_elevated_button.dart';
@@ -32,54 +37,7 @@ class MyApp extends StatelessWidget {
         builder: () => MaterialApp(
               title: 'Flutter Demo',
               debugShowCheckedModeBanner: false,
-              theme: ThemeData(
-                  primaryColor: const Color.fromRGBO(255, 79, 99, 1.0),
-                  primaryColorLight: const Color.fromRGBO(255, 181, 138, 1.0),
-                  fontFamily: 'DMSans',
-                  textTheme: TextTheme(
-                    //login
-                    headline1: TextStyle(
-                        fontSize: 36.sp,
-                        fontWeight: FontWeight.normal,
-                        color: Colors.white),
-                    headline2: TextStyle(
-                        fontSize: 22.sp,
-                        fontWeight: FontWeight.normal,
-                        color: Colors.white),
-                    //profil
-                    headline3: TextStyle(
-                        fontSize: 28.sp,
-                        fontWeight: FontWeight.w700,
-                        color: const Color.fromRGBO(76, 76, 76, 1.0)),
-                    //chat
-                    headline4: TextStyle(
-                        fontSize: 24.sp,
-                        fontWeight: FontWeight.normal,
-                        color: const Color.fromRGBO(142, 142, 142, 1.0)),
-                    //chat list
-                    headline5: TextStyle(
-                        fontSize: 24.sp,
-                        fontWeight: FontWeight.normal,
-                        color: Colors.white),
-                    subtitle1: TextStyle(
-                        fontSize: 19.sp,
-                        fontWeight: FontWeight.normal,
-                        color: Colors.white),
-                    //textinput, text
-                    bodyText1: TextStyle(
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.normal,
-                        color: const Color.fromRGBO(76, 76, 76, 1.0)),
-                    //label
-                    caption: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.normal,
-                        color: const Color.fromRGBO(142, 142, 142, 1.0)),
-                    button: TextStyle(
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white),
-                  )),
+              theme: ThemeConfig.createTheme(),
               localizationsDelegates: L10n.localizationsDelegates,
               supportedLocales: L10n.supportedLocales,
               home: const LoginPage(),
@@ -87,7 +45,11 @@ class MyApp extends StatelessWidget {
                 "/login_page": (context) => LoginPage(),
                 "/signup_page": (context) => SignUpPage(),
                 "/main_page": (context) => MainPage(),
-
+                "/profile_page": (context) => ProfilePage(),
+                "/edit_profile_page": (context) => EditProfilePage(),
+                "/child_profile_page": (context) => ChildProfilePage(),
+                "/edit_child_profile_page": (context) => EditChildProfilePage(),
+                "/chat_page": (context) => ChatPage(),
               },
             ));
   }
