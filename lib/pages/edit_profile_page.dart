@@ -22,6 +22,11 @@ class EditProfilePage extends StatefulWidget {
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
+  final Map<String, TextEditingController> _textControllers = {
+    "name": TextEditingController(),
+    "introduction": TextEditingController(),
+  };
+
   @override
   Widget build(BuildContext context) {
     final L10n? l10n = L10n.of(context);
@@ -38,9 +43,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                const CustomTextField(
-                  state: "",
+                CustomTextField(
                   label: "Név:",
+                  onChanged: (value) {},
+                  controller: _textControllers["name"]!,
                 ),
                 SizedBox(
                   height: 10.h,
@@ -89,19 +95,25 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 SizedBox(
                   height: 10.h,
                 ),
-                CustomIconButton(onPressed: () {Navigator.pushNamed(context, Routes.editChildProfile);}, type: Type.plus),
+                CustomIconButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, Routes.editChildProfile);
+                    },
+                    type: Type.plus),
                 SizedBox(
                   height: 10.h,
                 ),
-                const CustomTextField(
-                  state: "",
+                CustomTextField(
                   label: "Bemutatkozás:",
+                  onChanged: (value) {},
+                  controller: _textControllers["introduction"]!,
                   multiLine: true,
                 ),
                 SizedBox(
                   height: 20.h,
                 ),
-                CustomElevatedButton(text: "Mentés", onPressed: () {}, disabled: false)
+                CustomElevatedButton(
+                    text: "Mentés", onPressed: () {}, disabled: false)
               ],
             ),
           ),

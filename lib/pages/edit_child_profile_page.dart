@@ -18,6 +18,11 @@ class EditChildProfilePage extends StatefulWidget {
 }
 
 class _EditChildProfilePageState extends State<EditChildProfilePage> {
+  final Map<String, TextEditingController> _textControllers = {
+    "name": TextEditingController(),
+    "introduction": TextEditingController(),
+  };
+
   @override
   Widget build(BuildContext context) {
     final L10n? l10n = L10n.of(context);
@@ -34,9 +39,10 @@ class _EditChildProfilePageState extends State<EditChildProfilePage> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                const CustomTextField(
-                  state: "",
+                CustomTextField(
                   label: "Név:",
+                  onChanged: (value) {},
+                  controller: _textControllers["name"]!,
                 ),
                 SizedBox(
                   height: 10.h,
@@ -61,9 +67,10 @@ class _EditChildProfilePageState extends State<EditChildProfilePage> {
                 SizedBox(
                   height: 10.h,
                 ),
-                const CustomTextField(
-                  state: "",
+                CustomTextField(
                   label: "Bemutatkozás:",
+                  onChanged: (value) {},
+                  controller: _textControllers["introduction"]!,
                   multiLine: true,
                 ),
                 SizedBox(

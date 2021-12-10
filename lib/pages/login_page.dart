@@ -1,8 +1,8 @@
 import 'dart:ui';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/l10n.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:onlab1/components/appBar/gradient_background.dart';
 import 'package:onlab1/components/button/custom_icon_button.dart';
 import 'package:onlab1/components/button/custom_text_button.dart';
@@ -10,6 +10,7 @@ import 'package:onlab1/components/textField/custom_text_field.dart';
 import 'package:onlab1/components/button/custom_elevated_button.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onlab1/config/route_names.dart';
+import 'package:onlab1/stores/login_store.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({
@@ -21,12 +22,40 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  LoginStore _loginStore = LoginStore();
+
+  final Map<String, TextEditingController> _textControllers = {
+    "email": TextEditingController(),
+    "password": TextEditingController(),
+  };
+
+  final Map<String, FocusNode> _focusNodes = {
+    "username": FocusNode(),
+    "password": FocusNode(),
+  };
+
+  void showSnackBar(String text) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(text)));
+  }
+
+  void login() {
+    _loginStore.login(onSuccess: () {
+      Navigator.pushReplacementNamed(context, Routes.main);
+    }, onError: (error) {
+      showSnackBar(error);
+    });
+  }
+
+  void loginWithGoogle() {}
+
+  void loginWithFacebook() {}
+
   @override
   Widget build(BuildContext context) {
     final L10n? l10n = L10n.of(context);
     return Scaffold(
       appBar: AppBar(
-          title: const Text("App név"),
+          title: Text(l10n!.loginTitle),
           toolbarHeight: 150.h,
           titleTextStyle: Theme.of(context).textTheme.headline1,
           flexibleSpace: const GradientBackground()),
@@ -39,29 +68,44 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(
                 height: 20.h,
               ),
-              const CustomTextField(
-                state: "",
-                label: "Email:",
-                textInputType: TextInputType.emailAddress,
-                multiLine: true,
+              Observer(
+                builder: (_) => CustomTextField(
+                  controller: _textControllers["email"]!,
+                  label: l10n.email,
+                  textInputType: TextInputType.emailAddress,
+                  error: _loginStore.emailError,
+                  onChanged: (value) {
+                    _loginStore.email = _textControllers["email"]!.text;
+                  },
+                  focusNode: _focusNodes["email"],
+                  onSubmitted: (value) {
+                    FocusScope.of(context)
+                        .requestFocus(_focusNodes["password"]);
+                  },
+                ),
               ),
               SizedBox(
                 height: 10.h,
               ),
-              const CustomTextField(
-                state: "",
-                label: "Jelszó:",
-                textInputType: TextInputType.visiblePassword,
-                obscureText: true,
-              ),
+              Observer(builder: (_) {
+                return CustomTextField(
+                  controller: _textControllers["password"]!,
+                  label: l10n.password,
+                  textInputType: TextInputType.visiblePassword,
+                  error: _loginStore.passwordError,
+                  onChanged: (value) {
+                    _loginStore.password = _textControllers["password"]!.text;
+                  },
+                  focusNode: _focusNodes["password"],
+                  obscureText: true,
+                );
+              }),
               SizedBox(
                 height: 50.h,
               ),
               CustomElevatedButton(
-                text: "Bejelentkezés",
-                onPressed: () {
-                  Navigator.pushReplacementNamed(context, Routes.main);
-                },
+                text: l10n.login,
+                onPressed: login,
                 disabled: false,
               ),
               SizedBox(
@@ -78,7 +122,7 @@ class _LoginPageState extends State<LoginPage> {
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 5.w),
                     child: Text(
-                      "vagy",
+                      l10n.or,
                       style: Theme.of(context).textTheme.caption,
                     ),
                   ),
@@ -97,23 +141,27 @@ class _LoginPageState extends State<LoginPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   CustomIconButton(
-                      onPressed: () {}, type: Type.facebook, disabled: false),
+                      onPressed: loginWithFacebook,
+                      type: Type.facebook,
+                      disabled: false),
                   SizedBox(
                     width: 20.w,
                   ),
                   CustomIconButton(
-                      onPressed: () {}, type: Type.google, disabled: false),
+                      onPressed: loginWithGoogle,
+                      type: Type.google,
+                      disabled: false),
                 ],
               ),
               SizedBox(
                 height: 50.h,
               ),
               Text(
-                "Még nincs fiókod?",
+                l10n.dontHaveAccount,
                 style: Theme.of(context).textTheme.caption,
               ),
               CustomTextButton(
-                  text: "Regisztrájl",
+                  text: l10n.doSignUp,
                   onPressed: () {
                     Navigator.pushReplacementNamed(context, Routes.signup);
                   }),

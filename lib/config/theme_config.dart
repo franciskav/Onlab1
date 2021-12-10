@@ -58,6 +58,13 @@ class ThemeConfig {
         ),
         appBarTheme: const AppBarTheme(
           centerTitle: true,
+        ),
+        snackBarTheme: SnackBarThemeData(
+          backgroundColor: ColorConstants.primary,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30)
+          ),
+          behavior: SnackBarBehavior.floating,
         ));
   }
 }

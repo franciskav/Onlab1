@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/l10n.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:onlab1/components/appBar/gradient_background.dart';
 import 'package:onlab1/components/button/custom_icon_button.dart';
 import 'package:onlab1/components/button/custom_text_button.dart';
@@ -9,6 +10,7 @@ import 'package:onlab1/components/textField/custom_text_field.dart';
 import 'package:onlab1/components/button/custom_elevated_button.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onlab1/config/route_names.dart';
+import 'package:onlab1/stores/sign_up_store.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -18,6 +20,36 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  SignUpStore _signUpStore = SignUpStore();
+
+  final Map<String, TextEditingController> _textControllers = {
+    "email": TextEditingController(),
+    "password": TextEditingController(),
+    "password_again": TextEditingController(),
+  };
+
+  final Map<String, FocusNode> _focusNodes = {
+    "username": FocusNode(),
+    "password": FocusNode(),
+    "password_again": FocusNode(),
+  };
+
+  void showSnackBar(String text) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(text)));
+  }
+
+  void signUp() {
+    _signUpStore.signUp(onSuccess: () {
+      Navigator.pushReplacementNamed(context, Routes.main);
+    }, onError: (error) {
+      showSnackBar(error);
+    });
+  }
+
+  void signUpWithGoogle() {}
+
+  void signUpWithFacebook() {}
+
   @override
   Widget build(BuildContext context) {
     final L10n? l10n = L10n.of(context);
@@ -34,31 +66,71 @@ class _SignUpPageState extends State<SignUpPage> {
               SizedBox(
                 height: 20.h,
               ),
-              const CustomTextField(
-                state: "",
-                label: "Email:",
+              Observer(
+                builder: (_) {
+                  return CustomTextField(
+                    controller: _textControllers["email"]!,
+                    label: l10n!.email,
+                    textInputType: TextInputType.emailAddress,
+                    error: _signUpStore.emailError,
+                    onChanged: (value) {
+                      _signUpStore.email = _textControllers["email"]!.text;
+                    },
+                    focusNode: _focusNodes["email"],
+                    onSubmitted: (value) {
+                      FocusScope.of(context)
+                          .requestFocus(_focusNodes["password"]);
+                    },
+                  );
+                }
               ),
               SizedBox(
                 height: 10.h,
               ),
-              const CustomTextField(
-                state: "",
-                label: "Jelszó:",
+              Observer(
+                builder: (_) {
+                  return CustomTextField(
+                    controller: _textControllers["password"]!,
+                    label: l10n!.password,
+                    textInputType: TextInputType.visiblePassword,
+                    error: _signUpStore.passwordError,
+                    onChanged: (value) {
+                      _signUpStore.password = _textControllers["password"]!.text;
+                    },
+                    focusNode: _focusNodes["password"],
+                    onSubmitted: (value) {
+                      FocusScope.of(context)
+                          .requestFocus(_focusNodes["passwordAgain"]);
+                    },
+                    obscureText: true,
+                  );
+                }
               ),
               SizedBox(
                 height: 10.h,
               ),
-              const CustomTextField(
-                state: "",
-                label: "Jelszó megerősítése:",
+              Observer(
+                builder: (_) {
+                  return CustomTextField(
+                    controller: _textControllers["password_again"]!,
+                    label: l10n!.passwordAgain,
+                    textInputType: TextInputType.visiblePassword,
+                    error: _signUpStore.passwordAgainError,
+                    onChanged: (value) {
+                      _signUpStore.passwordAgain = _textControllers["password_again"]!.text;
+                    },
+                    focusNode: _focusNodes["password_again"],
+                    obscureText: true,
+                  );
+                }
               ),
               SizedBox(
                 height: 50.h,
               ),
               CustomElevatedButton(
-                text: "Regsiztráció",
+                text: l10n!.signUp,
                 onPressed: () {
-                  Navigator.pushReplacementNamed(context, Routes.main);
+                  signUp();
                 },
                 disabled: false,
               ),
@@ -76,7 +148,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 5.w),
                     child: Text(
-                      "vagy",
+                      l10n!.or,
                       style: Theme.of(context).textTheme.caption,
                     ),
                   ),
@@ -95,23 +167,23 @@ class _SignUpPageState extends State<SignUpPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   CustomIconButton(
-                      onPressed: () {}, type: Type.facebook, disabled: false),
+                      onPressed: () {signUpWithFacebook();}, type: Type.facebook, disabled: false),
                   SizedBox(
                     width: 20.w,
                   ),
                   CustomIconButton(
-                      onPressed: () {}, type: Type.google, disabled: false),
+                      onPressed: () {signUpWithGoogle();}, type: Type.google, disabled: false),
                 ],
               ),
               SizedBox(
                 height: 50.h,
               ),
               Text(
-                "Már van fiókod?",
+                l10n!.alreadyHaveAccount,
                 style: Theme.of(context).textTheme.caption,
               ),
               CustomTextButton(
-                  text: "Jelentkezz be",
+                  text: l10n!.doLogin,
                   onPressed: () {
                     Navigator.pushReplacementNamed(context, Routes.login);
                   }),
