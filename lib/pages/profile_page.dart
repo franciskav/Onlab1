@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/l10n.dart';
 import 'package:onlab1/components/appBar/gradient_background.dart';
@@ -9,6 +8,7 @@ import 'package:onlab1/components/button/custom_text_button.dart';
 import 'package:onlab1/components/textField/custom_text_field.dart';
 import 'package:onlab1/components/button/custom_elevated_button.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:onlab1/config/route_names.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({
@@ -30,7 +30,7 @@ class _ProfilePageState extends State<ProfilePage> {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.pushNamed(context, "/edit_profile_page");
+              Navigator.pushNamed(context, Routes.editProfile);
             },
             icon: const Icon(Icons.edit_outlined),
             iconSize: 45.h,

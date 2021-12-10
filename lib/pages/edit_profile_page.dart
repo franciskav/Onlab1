@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/l10n.dart';
 import 'package:onlab1/components/appBar/gradient_background.dart';
@@ -11,6 +10,7 @@ import 'package:onlab1/components/button/custom_text_button.dart';
 import 'package:onlab1/components/textField/custom_text_field.dart';
 import 'package:onlab1/components/button/custom_elevated_button.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:onlab1/config/route_names.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({
@@ -68,7 +68,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 CustomImageButton(
                   text: "Gyerek1",
                   onPressed: () {
-                    Navigator.pushNamed(context, "/edit_child_profile_page");
+                    Navigator.pushNamed(context, Routes.editChildProfile);
                   },
                   icon: Icons.edit_outlined,
                   disabled: false,
@@ -80,7 +80,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 CustomImageButton(
                   text: "Gyerek2",
                   onPressed: () {
-                    Navigator.pushNamed(context, "/edit_child_profile_page");
+                    Navigator.pushNamed(context, Routes.editChildProfile);
                   },
                   icon: Icons.edit_outlined,
                   disabled: false,
@@ -89,7 +89,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 SizedBox(
                   height: 10.h,
                 ),
-                CustomIconButton(onPressed: () {Navigator.pushNamed(context, "/edit_child_profile_page");}, type: Type.plus),
+                CustomIconButton(onPressed: () {Navigator.pushNamed(context, Routes.editChildProfile);}, type: Type.plus),
                 SizedBox(
                   height: 10.h,
                 ),

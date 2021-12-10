@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/l10n.dart';
 import 'package:onlab1/components/appBar/gradient_background.dart';
@@ -9,6 +8,7 @@ import 'package:onlab1/components/button/custom_text_button.dart';
 import 'package:onlab1/components/textField/custom_text_field.dart';
 import 'package:onlab1/components/button/custom_elevated_button.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:onlab1/config/route_names.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -58,7 +58,7 @@ class _SignUpPageState extends State<SignUpPage> {
               CustomElevatedButton(
                 text: "Regsiztráció",
                 onPressed: () {
-                  Navigator.pushReplacementNamed(context, "/signup_page");
+                  Navigator.pushReplacementNamed(context, Routes.main);
                 },
                 disabled: false,
               ),
@@ -113,7 +113,7 @@ class _SignUpPageState extends State<SignUpPage> {
               CustomTextButton(
                   text: "Jelentkezz be",
                   onPressed: () {
-                    Navigator.pushReplacementNamed(context, "/login_page");
+                    Navigator.pushReplacementNamed(context, Routes.login);
                   }),
               SizedBox(
                 height: 20.h,
