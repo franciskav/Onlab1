@@ -5,25 +5,27 @@ import 'package:onlab1/config/color_constants.dart';
 class CustomTextField extends StatefulWidget {
   final String state;
   final String label;
+  final String? error;
   final TextInputType? textInputType;
   final bool? obscureText;
   final bool? multiLine;
 
   const CustomTextField(
-      {Key? key, required this.state, required this.label, this.textInputType, this.obscureText, this.multiLine})
+      {Key? key, required this.state, required this.label, this.textInputType, this.obscureText, this.multiLine, this.error})
       : super(key: key);
 
   @override
-  _CustomTextField createState() => _CustomTextField(state, label, textInputType, obscureText ?? false, multiLine ?? false);
+  _CustomTextField createState() => _CustomTextField(state, label, textInputType, obscureText ?? false, multiLine ?? false, error);
 }
 
 class _CustomTextField extends State<CustomTextField> {
   String state;
   String label;
+  String? error;
   TextInputType? textInputType;
   bool obscureText;
   bool multiLine;
-  _CustomTextField(this.state, this.label, this.textInputType, this.obscureText, this.multiLine);
+  _CustomTextField(this.state, this.label, this.textInputType, this.obscureText, this.multiLine, this.error);
 
   late TextEditingController _controller;
 
@@ -54,6 +56,7 @@ class _CustomTextField extends State<CustomTextField> {
         TextField(
           controller: _controller,
           decoration: InputDecoration(
+              errorText: error,
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30.h),
                   borderSide: const BorderSide(

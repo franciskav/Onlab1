@@ -50,6 +50,11 @@ class ThemeConfig {
               fontSize: 18.sp,
               fontWeight: FontWeight.w700,
               color: ColorConstants.white),
+          //error
+          bodyText2: TextStyle(
+              fontSize: 16.sp,
+              fontWeight: FontWeight.normal,
+              color: ColorConstants.primary),
         ),
         appBarTheme: const AppBarTheme(
           centerTitle: true,
