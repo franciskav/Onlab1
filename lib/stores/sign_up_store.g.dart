@@ -104,10 +104,21 @@ mixin _$SignUpStore on _SignUpStore, Store {
 
   @override
   Future<void> signUp(
-      {required void Function() onSuccess,
+      {required void Function(MyUser.User) onSuccess,
       required void Function(String) onError}) {
     return _$signUpAsyncAction
         .run(() => super.signUp(onSuccess: onSuccess, onError: onError));
+  }
+
+  final _$signUpWithGoogleAsyncAction =
+      AsyncAction('_SignUpStore.signUpWithGoogle');
+
+  @override
+  Future<void> signUpWithGoogle(
+      {required void Function(MyUser.User) onSuccess,
+      required void Function(String) onError}) {
+    return _$signUpWithGoogleAsyncAction.run(
+        () => super.signUpWithGoogle(onSuccess: onSuccess, onError: onError));
   }
 
   @override

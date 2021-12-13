@@ -46,9 +46,13 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
-  void loginWithGoogle() {}
-
-  void loginWithFacebook() {}
+  void loginWithGoogle() {
+    _loginStore.loginWithGoogle(onSuccess: () {
+      Navigator.pushReplacementNamed(context, Routes.main);
+    }, onError: (error) {
+      showSnackBar(error);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -137,22 +141,10 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(
                 height: 50.h,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CustomIconButton(
-                      onPressed: loginWithFacebook,
-                      type: Type.facebook,
-                      disabled: false),
-                  SizedBox(
-                    width: 20.w,
-                  ),
-                  CustomIconButton(
-                      onPressed: loginWithGoogle,
-                      type: Type.google,
-                      disabled: false),
-                ],
-              ),
+              CustomIconButton(
+                  onPressed: loginWithGoogle,
+                  type: Type.google,
+                  disabled: false),
               SizedBox(
                 height: 50.h,
               ),

@@ -57,7 +57,7 @@ class _MainPageState extends State<MainPage> {
             gradient: LinearGradient(
                 begin: Alignment.bottomLeft,
                 end: Alignment.topRight,
-                stops: [0.0, 0.4],
+                stops: [0.0, 0.8],
                 colors: [ColorConstants.primaryLight, ColorConstants.primary])),
         child: BottomNavigationBar(
           backgroundColor: ColorConstants.transparent,

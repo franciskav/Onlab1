@@ -11,6 +11,8 @@ import 'package:onlab1/components/button/custom_elevated_button.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onlab1/config/route_names.dart';
 import 'package:onlab1/stores/sign_up_store.dart';
+import 'package:onlab1/stores/user_store.dart';
+import 'package:provider/provider.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -38,25 +40,34 @@ class _SignUpPageState extends State<SignUpPage> {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(text)));
   }
 
-  void signUp() {
-    _signUpStore.signUp(onSuccess: () {
-      Navigator.pushReplacementNamed(context, Routes.main);
+  void signUp(UserStore store) {
+    _signUpStore.signUp(onSuccess: (user) {
+      store.setNewUSer(user);
+      Navigator.pushReplacementNamed(context, Routes.editProfile);
+      store.initTempUser();
     }, onError: (error) {
       showSnackBar(error);
     });
   }
 
-  void signUpWithGoogle() {}
-
-  void signUpWithFacebook() {}
+  void signUpWithGoogle(UserStore store) {
+    _signUpStore.signUpWithGoogle(onSuccess: (user) {
+      store.setNewUSer(user);
+      Navigator.pushReplacementNamed(context, Routes.editProfile);
+      store.initTempUser();
+    }, onError: (error) {
+      showSnackBar(error);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    final _userStore = Provider.of<UserStore>(context);
     final L10n? l10n = L10n.of(context);
+
     return Scaffold(
       appBar: AppBar(
-          title: const Text("Regisztráció"),
-          flexibleSpace: const GradientBackground()),
+          title: Text(l10n!.signUp), flexibleSpace: const GradientBackground()),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 25.w),
@@ -66,71 +77,66 @@ class _SignUpPageState extends State<SignUpPage> {
               SizedBox(
                 height: 20.h,
               ),
-              Observer(
-                builder: (_) {
-                  return CustomTextField(
-                    controller: _textControllers["email"]!,
-                    label: l10n!.email,
-                    textInputType: TextInputType.emailAddress,
-                    error: _signUpStore.emailError,
-                    onChanged: (value) {
-                      _signUpStore.email = _textControllers["email"]!.text;
-                    },
-                    focusNode: _focusNodes["email"],
-                    onSubmitted: (value) {
-                      FocusScope.of(context)
-                          .requestFocus(_focusNodes["password"]);
-                    },
-                  );
-                }
-              ),
+              Observer(builder: (_) {
+                return CustomTextField(
+                  controller: _textControllers["email"]!,
+                  label: l10n.email,
+                  textInputType: TextInputType.emailAddress,
+                  error: _signUpStore.emailError,
+                  onChanged: (value) {
+                    _signUpStore.email = _textControllers["email"]!.text;
+                  },
+                  focusNode: _focusNodes["email"],
+                  onSubmitted: (value) {
+                    FocusScope.of(context)
+                        .requestFocus(_focusNodes["password"]);
+                  },
+                );
+              }),
               SizedBox(
                 height: 10.h,
               ),
-              Observer(
-                builder: (_) {
-                  return CustomTextField(
-                    controller: _textControllers["password"]!,
-                    label: l10n!.password,
-                    textInputType: TextInputType.visiblePassword,
-                    error: _signUpStore.passwordError,
-                    onChanged: (value) {
-                      _signUpStore.password = _textControllers["password"]!.text;
-                    },
-                    focusNode: _focusNodes["password"],
-                    onSubmitted: (value) {
-                      FocusScope.of(context)
-                          .requestFocus(_focusNodes["passwordAgain"]);
-                    },
-                    obscureText: true,
-                  );
-                }
-              ),
+              Observer(builder: (_) {
+                return CustomTextField(
+                  controller: _textControllers["password"]!,
+                  label: l10n.password,
+                  textInputType: TextInputType.visiblePassword,
+                  error: _signUpStore.passwordError,
+                  onChanged: (value) {
+                    _signUpStore.password = _textControllers["password"]!.text;
+                  },
+                  focusNode: _focusNodes["password"],
+                  onSubmitted: (value) {
+                    FocusScope.of(context)
+                        .requestFocus(_focusNodes["passwordAgain"]);
+                  },
+                  obscureText: true,
+                );
+              }),
               SizedBox(
                 height: 10.h,
               ),
-              Observer(
-                builder: (_) {
-                  return CustomTextField(
-                    controller: _textControllers["password_again"]!,
-                    label: l10n!.passwordAgain,
-                    textInputType: TextInputType.visiblePassword,
-                    error: _signUpStore.passwordAgainError,
-                    onChanged: (value) {
-                      _signUpStore.passwordAgain = _textControllers["password_again"]!.text;
-                    },
-                    focusNode: _focusNodes["password_again"],
-                    obscureText: true,
-                  );
-                }
-              ),
+              Observer(builder: (_) {
+                return CustomTextField(
+                  controller: _textControllers["password_again"]!,
+                  label: l10n.passwordAgain,
+                  textInputType: TextInputType.visiblePassword,
+                  error: _signUpStore.passwordAgainError,
+                  onChanged: (value) {
+                    _signUpStore.passwordAgain =
+                        _textControllers["password_again"]!.text;
+                  },
+                  focusNode: _focusNodes["password_again"],
+                  obscureText: true,
+                );
+              }),
               SizedBox(
                 height: 50.h,
               ),
               CustomElevatedButton(
-                text: l10n!.signUp,
+                text: l10n.signUp,
                 onPressed: () {
-                  signUp();
+                  signUp(_userStore);
                 },
                 disabled: false,
               ),
@@ -148,7 +154,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 5.w),
                     child: Text(
-                      l10n!.or,
+                      l10n.or,
                       style: Theme.of(context).textTheme.caption,
                     ),
                   ),
@@ -163,27 +169,21 @@ class _SignUpPageState extends State<SignUpPage> {
               SizedBox(
                 height: 50.h,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CustomIconButton(
-                      onPressed: () {signUpWithFacebook();}, type: Type.facebook, disabled: false),
-                  SizedBox(
-                    width: 20.w,
-                  ),
-                  CustomIconButton(
-                      onPressed: () {signUpWithGoogle();}, type: Type.google, disabled: false),
-                ],
-              ),
+              CustomIconButton(
+                  onPressed: () {
+                    signUpWithGoogle(_userStore);
+                  },
+                  type: Type.google,
+                  disabled: false),
               SizedBox(
                 height: 50.h,
               ),
               Text(
-                l10n!.alreadyHaveAccount,
+                l10n.alreadyHaveAccount,
                 style: Theme.of(context).textTheme.caption,
               ),
               CustomTextButton(
-                  text: l10n!.doLogin,
+                  text: l10n.doLogin,
                   onPressed: () {
                     Navigator.pushReplacementNamed(context, Routes.login);
                   }),

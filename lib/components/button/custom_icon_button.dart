@@ -21,7 +21,7 @@ class CustomIconButton extends StatelessWidget {
             color: type == Type.facebook
                 ? ColorConstants.white
                 : type == Type.google
-                    ? ColorConstants.google
+                    ? ColorConstants.white
                     : ColorConstants.grayLight,
             shape: const CircleBorder()),
         child: IconButton(
@@ -37,7 +37,7 @@ class CustomIconButton extends StatelessWidget {
                 : type == Type.google
                     ? const Icon(
                         Icons.email_outlined,
-                        color: ColorConstants.white,
+                        color: ColorConstants.google,
                         size: 50,
                       )
                     : const Icon(

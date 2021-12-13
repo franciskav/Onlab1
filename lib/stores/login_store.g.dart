@@ -79,6 +79,17 @@ mixin _$LoginStore on _LoginStore, Store {
         .run(() => super.login(onSuccess: onSuccess, onError: onError));
   }
 
+  final _$loginWithGoogleAsyncAction =
+      AsyncAction('_LoginStore.loginWithGoogle');
+
+  @override
+  Future<void> loginWithGoogle(
+      {required void Function() onSuccess,
+      required void Function(String) onError}) {
+    return _$loginWithGoogleAsyncAction.run(
+        () => super.loginWithGoogle(onSuccess: onSuccess, onError: onError));
+  }
+
   @override
   String toString() {
     return '''

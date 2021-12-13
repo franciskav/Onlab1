@@ -1,11 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:mobx/mobx.dart';
+import 'package:onlab1/models/user.dart' as MyUser;
+import 'package:onlab1/stores/user_store.dart';
 import 'package:validators/validators.dart';
 part 'sign_up_store.g.dart';
-
-//facebook redirect https://onlab1.firebaseapp.com/__/auth/handler
 
 class SignUpStore = _SignUpStore with _$SignUpStore;
 
@@ -30,7 +29,7 @@ abstract class _SignUpStore with Store {
 
   @action
   Future<void> signUp(
-      {required void Function() onSuccess,
+      {required void Function(MyUser.User) onSuccess,
       required void Function(String) onError}) async {
     if (!validate()) {
       return;
@@ -42,7 +41,14 @@ abstract class _SignUpStore with Store {
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
       print(userCredential);
-      onSuccess();
+      if (userCredential.user?.uid != null &&
+          userCredential.user?.email != null) {
+        MyUser.User user = MyUser.User(
+            id: userCredential.user!.uid,
+            email: userCredential.user!.email,
+            children: []);
+        onSuccess(user);
+      }
     } on FirebaseAuthException catch (e) {
       String error = "";
       if (e.code == 'weak-password') {
@@ -57,26 +63,33 @@ abstract class _SignUpStore with Store {
   }
 
   @action
-  Future<void> signUpWithGoogle({required void Function() onSuccess,
-    required void Function(String) onError}) async {
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
-    FirebaseAuth.instance.signInWithCredential(credential);
-  }
-
-  @action
-  Future<void> signUpWithFacebook({required void Function() onSuccess,
-    required void Function(String) onError}) async {
-    final LoginResult loginResult =
-        FacebookAuth.instance.login() as LoginResult;
-    final OAuthCredential facebookAuthCredential =
-        FacebookAuthProvider.credential(loginResult.accessToken!.token);
-    FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
+  Future<void> signUpWithGoogle(
+      {required void Function(MyUser.User) onSuccess,
+      required void Function(String) onError}) async {
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithCredential(credential);
+      print(userCredential);
+      if (userCredential.user?.uid != null &&
+          userCredential.user?.email != null) {
+        MyUser.User user = MyUser.User(
+            id: userCredential.user!.uid,
+            email: userCredential.user!.email,
+            children: []);
+        onSuccess(user);
+      }
+    } on FirebaseAuthException catch (e) {
+      onError('Váratlan hiba történt');
+    } catch (e) {
+      print(e);
+    }
   }
 
   bool validate() {
@@ -94,14 +107,17 @@ abstract class _SignUpStore with Store {
 
     if (password.isEmpty) {
       passwordError = "A mező kitöltése kötelező";
+      valid = false;
     } else {
       passwordError = null;
     }
 
     if (passwordAgain.isEmpty) {
       passwordAgainError = "A mező kitöltése kötelező";
+      valid = false;
     } else if (password != passwordAgain) {
       passwordAgainError = "A két jelszó nem egyforma";
+      valid = false;
     } else {
       passwordAgainError = null;
     }

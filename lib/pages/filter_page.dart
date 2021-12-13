@@ -31,8 +31,8 @@ class _FilterPageState extends State<FilterPage> {
         child: Column(
           //mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const CustomDropdown(
-                items: ["Nő", "Férfi", "Mindkettő"], label: "Nem:"),
+            // CustomDropdown(
+            //     items: ["Nő", "Férfi", "Mindkettő"], label: "Nem:", onChanged: (value) {}),
             SizedBox(
               height: 10.h,
             ),
@@ -40,8 +40,8 @@ class _FilterPageState extends State<FilterPage> {
             SizedBox(
               height: 10.h,
             ),
-            const CustomDropdown(
-                items: ["Kislány", "Kisfiú", "Mindkettő"], label: "Gyerek neme:"),
+            // CustomDropdown(
+            //     items: ["Kislány", "Kisfiú", "Mindkettő"], label: "Gyerek neme:", onChanged: (value) {}),
             SizedBox(
               height: 10.h,
             ),

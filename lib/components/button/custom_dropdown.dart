@@ -1,26 +1,24 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onlab1/config/color_constants.dart';
 
 class CustomDropdown extends StatefulWidget {
-  final String? value;
-  final List<String> items;
+  final Enum? value;
+  final List<Enum> items;
   final String label;
+  final void Function(Enum? value) onChanged;
 
   const CustomDropdown(
-      {Key? key, this.value, required this.items, required this.label})
+      {Key? key, this.value, required this.items, required this.label, required this.onChanged})
       : super(key: key);
 
   @override
-  _CustomDropdown createState() => _CustomDropdown(value, items, label);
+  _CustomDropdown createState() => _CustomDropdown();
 }
 
 class _CustomDropdown extends State<CustomDropdown> {
-  String? value;
-  List<String> items;
-  String label;
-
-  _CustomDropdown(this.value, this.items, this.label);
+  _CustomDropdown();
 
   @override
   void initState() {
@@ -32,6 +30,22 @@ class _CustomDropdown extends State<CustomDropdown> {
     super.dispose();
   }
 
+  String getName(String value) {
+    switch (value) {
+      case 'man':
+        return 'Férfi';
+      case 'woman':
+        return 'Nő';
+      case 'girl':
+        return 'Kislány';
+      case 'boy':
+        return 'Kisfiú';
+      case 'any':
+        return 'Mindegy';
+    }
+    return '';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -40,7 +54,7 @@ class _CustomDropdown extends State<CustomDropdown> {
         Padding(
           padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 15.w),
           child: Text(
-            label.toUpperCase(),
+            widget.label.toUpperCase(),
             style: Theme.of(context).textTheme.caption,
           ),
         ),
@@ -62,17 +76,18 @@ class _CustomDropdown extends State<CustomDropdown> {
               contentPadding:
                   EdgeInsets.symmetric(vertical: 10.h, horizontal: 15.w)),
           style: Theme.of(context).textTheme.bodyText1,
-          items: items.map((String value) {
-            return DropdownMenuItem<String>(
+          items: widget.items.map((Enum value) {
+            return DropdownMenuItem<Enum>(
               value: value,
-              child: Text(value),
+              child: Text(getName(describeEnum(value))),
             );
           }).toList(),
-          onChanged: (String? newValue) {
+          onChanged: (Enum? newValue) {
             setState(() {
-              value = newValue;
+              widget.onChanged(newValue);
             });
           },
+          value: widget.value,
         ),
       ],
     );
