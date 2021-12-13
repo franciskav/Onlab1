@@ -11,6 +11,8 @@ import 'package:onlab1/components/button/custom_elevated_button.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onlab1/config/route_names.dart';
 import 'package:onlab1/stores/login_store.dart';
+import 'package:onlab1/stores/user_store.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({
@@ -38,15 +40,16 @@ class _LoginPageState extends State<LoginPage> {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(text)));
   }
 
-  void login() {
+  void login(UserStore store) {
     _loginStore.login(onSuccess: () {
+      store.getUser();
       Navigator.pushReplacementNamed(context, Routes.main);
     }, onError: (error) {
       showSnackBar(error);
     });
   }
 
-  void loginWithGoogle() {
+  void loginWithGoogle(UserStore store) {
     _loginStore.loginWithGoogle(onSuccess: () {
       Navigator.pushReplacementNamed(context, Routes.main);
     }, onError: (error) {
@@ -56,7 +59,9 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final _userStore = Provider.of<UserStore>(context);
     final L10n? l10n = L10n.of(context);
+
     return Scaffold(
       appBar: AppBar(
           title: Text(l10n!.loginTitle),
@@ -109,7 +114,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               CustomElevatedButton(
                 text: l10n.login,
-                onPressed: login,
+                onPressed: () {login(_userStore);},
                 disabled: false,
               ),
               SizedBox(
@@ -142,7 +147,7 @@ class _LoginPageState extends State<LoginPage> {
                 height: 50.h,
               ),
               CustomIconButton(
-                  onPressed: loginWithGoogle,
+                  onPressed: () {loginWithGoogle(_userStore);},
                   type: Type.google,
                   disabled: false),
               SizedBox(

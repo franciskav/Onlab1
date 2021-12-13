@@ -49,6 +49,8 @@
   "@kids": {"description": ""},
   "introduction": "Bemutatkozás",
   "@introduction": {"description": ""},
+  "picture": "Fotó",
+  "@picture": {"description": ""},
   "save": "Metés",
   "@save": {"description": ""}
 }

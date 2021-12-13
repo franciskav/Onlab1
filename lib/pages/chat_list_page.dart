@@ -2,12 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/l10n.dart';
-import 'package:onlab1/components/appBar/gradient_background.dart';
-import 'package:onlab1/components/button/custom_icon_button.dart';
-import 'package:onlab1/components/button/custom_text_button.dart';
 import 'package:onlab1/components/listItem/chat_list_item.dart';
-import 'package:onlab1/components/textField/custom_text_field.dart';
-import 'package:onlab1/components/button/custom_elevated_button.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ChatListPage extends StatefulWidget {
@@ -27,9 +22,9 @@ class _ChatListPageState extends State<ChatListPage> {
         padding: EdgeInsets.symmetric(vertical: 15.w, horizontal: 25.h),
         child: Column(
           children: <Widget>[
-            ChatListItem(title: 'Sample User', subtitle: 'Lorem ipsum..', isReaded: false, onTap: () {},),
+            ChatListItem(title: 'Kiss Kata', subtitle: 'Szia, hogy vagy?', image: 'https://picsum.photos/200', isReaded: false, onTap: () {},),
             SizedBox(height: 15.h,),
-            ChatListItem(title: 'Sample User', subtitle: 'Lorem ipsum..', isReaded: true, onTap: () {},),
+            ChatListItem(title: 'Nagy Anna', subtitle: 'Kedden hétkor találkozunk a...', image: 'https://picsum.photos/300', isReaded: true, onTap: () {},),
           ],
         ),
       ),

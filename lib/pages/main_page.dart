@@ -32,12 +32,24 @@ class _MainPageState extends State<MainPage> {
     });
   }
 
+  String getTitle() {
+    switch (selectedIndex) {
+      case 0:
+        return 'Szűrés';
+      case 1:
+        return 'Ismerősök';
+      case 2:
+        return 'Ajánlások';
+    }
+    return '';
+  }
+
   @override
   Widget build(BuildContext context) {
     final L10n? l10n = L10n.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Main Page"),
+        title: Text(getTitle()),
         flexibleSpace: const GradientBackground(),
         actions: [
           IconButton(
@@ -60,7 +72,7 @@ class _MainPageState extends State<MainPage> {
                 stops: [0.0, 0.8],
                 colors: [ColorConstants.primaryLight, ColorConstants.primary])),
         child: BottomNavigationBar(
-          backgroundColor: ColorConstants.transparent,
+          backgroundColor: ColorConstants.primaryLight,
           showSelectedLabels: false,
           showUnselectedLabels: false,
           items: <BottomNavigationBarItem>[
@@ -79,7 +91,7 @@ class _MainPageState extends State<MainPage> {
           ],
           currentIndex: selectedIndex,
           selectedItemColor: ColorConstants.white,
-          unselectedItemColor: ColorConstants.gray,
+          unselectedItemColor: ColorConstants.whiteGradient,
           onTap: _onItemTapped,
         ),
       ),

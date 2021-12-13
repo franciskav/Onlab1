@@ -7,46 +7,41 @@ class ChatListItem extends StatefulWidget {
   final String subtitle;
   final bool isReaded;
   final void Function()? onTap;
+  final String image;
 
   const ChatListItem(
       {Key? key,
       required this.title,
       required this.subtitle,
-      required this.isReaded, this.onTap})
+      required this.isReaded, required this.image, this.onTap})
       : super(key: key);
 
   @override
-  _ChatListItem createState() => _ChatListItem(title, subtitle, isReaded, onTap);
+  _ChatListItem createState() => _ChatListItem();
 }
 
 class _ChatListItem extends State<ChatListItem> {
-  String title;
-  String subtitle;
-  bool isReaded;
-  void Function()? onTap;
-
-  _ChatListItem(this.title, this.subtitle, this.isReaded, this.onTap);
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       leading: CircleAvatar(
           radius: 30.h,
-          backgroundImage: const NetworkImage('https://picsum.photos/200')),
+          backgroundImage: NetworkImage(widget.image)),
       title: Text(
-        title,
+        widget.title,
         style: Theme.of(context).textTheme.headline5,
       ),
       subtitle: Text(
-        subtitle,
+        widget.subtitle,
         style: Theme.of(context).textTheme.subtitle1,
       ),
       tileColor:
-          isReaded ? ColorConstants.primaryLight : ColorConstants.primary,
+      widget.isReaded ? ColorConstants.primaryLight : ColorConstants.primary,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(80.h),
       ),
-      onTap: onTap,
+      onTap: widget.onTap,
     );
   }
 }

@@ -30,6 +30,27 @@ mixin _$UserStore on _UserStore, Store {
           Computed<ObservableList<Child>>(() => super.getChildren,
               name: '_UserStore.getChildren'))
       .value;
+  Computed<String>? _$getUserAgeComputed;
+
+  @override
+  String get getUserAge =>
+      (_$getUserAgeComputed ??= Computed<String>(() => super.getUserAge,
+              name: '_UserStore.getUserAge'))
+          .value;
+  Computed<String>? _$getUserGenderComputed;
+
+  @override
+  String get getUserGender =>
+      (_$getUserGenderComputed ??= Computed<String>(() => super.getUserGender,
+              name: '_UserStore.getUserGender'))
+          .value;
+  Computed<String>? _$getUserIntroductionComputed;
+
+  @override
+  String get getUserIntroduction => (_$getUserIntroductionComputed ??=
+          Computed<String>(() => super.getUserIntroduction,
+              name: '_UserStore.getUserIntroduction'))
+      .value;
 
   final _$userAtom = Atom(name: '_UserStore.user');
 
@@ -76,11 +97,20 @@ mixin _$UserStore on _UserStore, Store {
     });
   }
 
+  final _$getUserAsyncAction = AsyncAction('_UserStore.getUser');
+
+  @override
+  Future<void> getUser() {
+    return _$getUserAsyncAction.run(() => super.getUser());
+  }
+
   final _$updateUserAsyncAction = AsyncAction('_UserStore.updateUser');
 
   @override
-  Future<void> updateUser(void Function(String) onError) {
-    return _$updateUserAsyncAction.run(() => super.updateUser(onError));
+  Future<void> updateUser(
+      void Function() onSuccess, void Function(String) onError) {
+    return _$updateUserAsyncAction
+        .run(() => super.updateUser(onSuccess, onError));
   }
 
   final _$_UserStoreActionController = ActionController(name: '_UserStore');
@@ -163,22 +193,11 @@ mixin _$UserStore on _UserStore, Store {
   }
 
   @override
-  void updateChild(void Function(String) onError) {
+  void updateChild(void Function() onSuccess, void Function(String) onError) {
     final _$actionInfo = _$_UserStoreActionController.startAction(
         name: '_UserStore.updateChild');
     try {
-      return super.updateChild(onError);
-    } finally {
-      _$_UserStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void getUser() {
-    final _$actionInfo =
-        _$_UserStoreActionController.startAction(name: '_UserStore.getUser');
-    try {
-      return super.getUser();
+      return super.updateChild(onSuccess, onError);
     } finally {
       _$_UserStoreActionController.endAction(_$actionInfo);
     }
@@ -192,7 +211,10 @@ tempUser: ${tempUser},
 tempChild: ${tempChild},
 tempDateOfBirth: ${tempDateOfBirth},
 tempChildDateOfBirth: ${tempChildDateOfBirth},
-getChildren: ${getChildren}
+getChildren: ${getChildren},
+getUserAge: ${getUserAge},
+getUserGender: ${getUserGender},
+getUserIntroduction: ${getUserIntroduction}
     ''';
   }
 }

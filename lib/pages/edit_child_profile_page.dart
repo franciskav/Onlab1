@@ -28,7 +28,9 @@ class _EditChildProfilePageState extends State<EditChildProfilePage> {
   }
 
   void onSavePress(UserStore _userStore) {
-    _userStore.updateChild((error) {
+    _userStore.updateChild(() {
+      Navigator.pop(context);
+    }, (error) {
       showSnackBar(error);
     });
   }

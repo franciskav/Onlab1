@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -45,6 +46,32 @@ abstract class _UserStore with Store {
     ObservableList<Child> observables = ObservableList();
     observables.addAll(tempUser.children ?? []);
     return observables;
+  }
+
+  @computed
+  String get getUserAge {
+    if (user.birthDate != null) {
+      return (DateTime.now().difference(user.birthDate!).inDays / 365)
+          .round()
+          .toString();
+    }
+    return '';
+  }
+
+  @computed
+  String get getUserGender {
+    if (user.gender == ParentGender.man) {
+      return 'Férfi';
+    }
+    return 'Nő';
+  }
+
+  @computed
+  String get getUserIntroduction {
+    if (user.introduction != null) {
+      return user.introduction!;
+    }
+    return '';
   }
 
   @action
@@ -108,7 +135,7 @@ abstract class _UserStore with Store {
   }
 
   @action
-  void updateChild(void Function(String) onError) {
+  void updateChild(void Function() onSuccess, void Function(String) onError) {
     print(tempChild.toJson());
     print(tempUser.toJson());
     if (validateChild(tempChild)) {
@@ -117,37 +144,47 @@ abstract class _UserStore with Store {
       } else {
         tempUser.children![childIndex] = tempChild;
       }
+      onSuccess();
     } else {
       onError('Minden mező kitöltése kötelező');
     }
   }
 
   @action
-  void getUser() {
-    //TODO: load data from Firebase
+  Future<void> getUser() async {
+    //TODO: ki kell találni hogyan kell deserializálni
+    // DatabaseEvent event = await FirebaseDatabase.instance.ref('users/Ujau3qSaQxMsjvKCCxDWpRqmHV43/data').once();
+    // print(event.snapshot.value);
+    // Map<String, dynamic> asd =  json.decode(event.snapshot.value.toString(), );
+    // user = User.fromJson(asd);
+    // print(user);
   }
 
   @action
-  Future<void> updateUser(void Function(String) onError) async {
+  Future<void> updateUser(
+      void Function() onSuccess, void Function(String) onError) async {
     print(tempUser.toJson());
     if (validateUser(tempUser)) {
-      File file = File(tempUser.photo!);
-      String fileName = tempUser.photo!.split('/').last;
       try {
-        await FirebaseStorage.instance.ref('photos/$fileName').putFile(file);
-        String downloadUrl = await FirebaseStorage.instance
-            .ref('photos/$fileName')
-            .getDownloadURL();
-        setTempUser(photo: downloadUrl);
+        if (!tempUser.photo!.startsWith('http')) {
+          File file = File(tempUser.photo!);
+          String fileName = tempUser.photo!.split('/').last;
+          await FirebaseStorage.instance.ref('photos/$fileName').putFile(file);
+          String downloadUrl = await FirebaseStorage.instance
+              .ref('photos/$fileName')
+              .getDownloadURL();
+          setTempUser(photo: downloadUrl);
+        }
         user = tempUser;
-        print('USER ${tempUser.toJson()}');
+        //print('USER ${tempUser.toJson()}');
         await FirebaseDatabase.instance
             .ref('users/${user.id}/data')
             .set(user.toJson());
-      } on FirebaseException catch (e) {
+        onSuccess();
+      } catch (e) {
         print(e);
+        onError('Hiba történt, próbálja meg újra');
       }
-      //TODO: update user in Firebase
     } else {
       onError('Minden mező kitöltése kötelező');
     }

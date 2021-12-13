@@ -39,37 +39,37 @@ class _EditProfilePageState extends State<EditProfilePage> {
   }
 
   void onSavePress(UserStore _userStore) {
-    _userStore.updateUser((error) {
+    _userStore.updateUser(() {
+      Navigator.pushReplacementNamed(context, Routes.main);
+    }, (error) {
       showSnackBar(error);
     });
     setState(() {});
   }
 
   Widget listChildren(ObservableList<Child> children, UserStore _userStore) {
-    return Observer(
-      builder: (_) {
-        return ListView.builder(
-            itemCount: children.length,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (BuildContext context, int index) {
-              return Padding(
-                padding: EdgeInsets.symmetric(vertical: 5.h),
-                child: CustomImageButton(
-                  key: Key(index.toString()),
-                  text: children[index].name!,
-                  onPressed: () {
-                    _userStore.childIndex = index;
-                    Navigator.pushNamed(context, Routes.editChildProfile)
-                        .then((_) => onGoBack(_userStore));
-                    _userStore.initTempChild();
-                  },
-                  icon: Icons.edit_outlined,
-                ),
-              );
-            });
-      }
-    );
+    return Observer(builder: (_) {
+      return ListView.builder(
+          itemCount: children.length,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemBuilder: (BuildContext context, int index) {
+            return Padding(
+              padding: EdgeInsets.symmetric(vertical: 5.h),
+              child: CustomImageButton(
+                key: Key(index.toString()),
+                text: children[index].name!,
+                onPressed: () {
+                  _userStore.childIndex = index;
+                  Navigator.pushNamed(context, Routes.editChildProfile)
+                      .then((_) => onGoBack(_userStore));
+                  _userStore.initTempChild();
+                },
+                icon: Icons.edit_outlined,
+              ),
+            );
+          });
+    });
   }
 
   @override
@@ -143,9 +143,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 SizedBox(
                   height: 10.h,
                 ),
-                Text(
-                  l10n.kids.toUpperCase(),
-                  style: Theme.of(context).textTheme.caption,
+                Padding(
+                  padding: EdgeInsets.only(left: 15.w),
+                  child: Text(
+                    l10n.kids.toUpperCase(),
+                    style: Theme.of(context).textTheme.caption,
+                  ),
                 ),
                 SizedBox(
                   height: 10.h,
@@ -177,17 +180,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 SizedBox(
                   height: 20.h,
                 ),
-                Observer(
-                  builder: (_) {
-                    return CustomImagePicker(
-                      label: 'Fotó',
-                      value: _userStore.tempUser.photo,
-                      onChanged: (value) {
-                        _userStore.setTempUser(photo: value);
-                      },
-                    );
-                  }
-                ),
+                Observer(builder: (_) {
+                  return CustomImagePicker(
+                    label: l10n.picture,
+                    value: _userStore.tempUser.photo,
+                    onChanged: (value) {
+                      _userStore.setTempUser(photo: value);
+                    },
+                  );
+                }),
                 SizedBox(
                   height: 20.h,
                 ),

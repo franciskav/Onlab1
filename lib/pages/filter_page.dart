@@ -11,6 +11,8 @@ import 'package:onlab1/components/slider/custom_slider.dart';
 import 'package:onlab1/components/textField/custom_text_field.dart';
 import 'package:onlab1/components/button/custom_elevated_button.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:onlab1/enums/select_child_gender.dart';
+import 'package:onlab1/enums/select_parent_gender.dart';
 
 class FilterPage extends StatefulWidget {
   const FilterPage({
@@ -31,8 +33,8 @@ class _FilterPageState extends State<FilterPage> {
         child: Column(
           //mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            // CustomDropdown(
-            //     items: ["Nő", "Férfi", "Mindkettő"], label: "Nem:", onChanged: (value) {}),
+            CustomDropdown(
+                items: SelectParentGender.values, label: "Nem:", onChanged: (value) {}),
             SizedBox(
               height: 10.h,
             ),
@@ -40,12 +42,12 @@ class _FilterPageState extends State<FilterPage> {
             SizedBox(
               height: 10.h,
             ),
-            // CustomDropdown(
-            //     items: ["Kislány", "Kisfiú", "Mindkettő"], label: "Gyerek neme:", onChanged: (value) {}),
+            CustomDropdown(
+                items: SelectChildGender.values, label: "Gyerekek neme:", onChanged: (value) {}),
             SizedBox(
               height: 10.h,
             ),
-            const CustomRangeSlider(label: "Gyermekek kora:", min: 0, max: 18, metric: "év",),
+            const CustomRangeSlider(label: "Gyerekek kora:", min: 0, max: 18, metric: "év",),
             SizedBox(
               height: 10.h,
             ),

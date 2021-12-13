@@ -10,5 +10,6 @@ class ColorConstants {
   static const Color gray = Color.fromRGBO(142, 142, 142, 1.0);
   static const Color grayLight = Color.fromRGBO(236, 236, 236, 1.0);
   static const Color white = Colors.white;
+  static const Color whiteGradient = Color.fromRGBO(255, 255, 255, 0.5);
   static const Color transparent = Colors.transparent;
 }
