@@ -138,7 +138,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 onPressed: () {
                   signUp(_userStore);
                 },
-                disabled: false,
+                secondary: false,
               ),
               SizedBox(
                 height: 50.h,

@@ -5,13 +5,13 @@ import 'package:onlab1/config/color_constants.dart';
 class CustomElevatedButton extends StatelessWidget {
   final String text;
   final void Function()? onPressed;
-  final bool disabled;
+  final bool secondary;
 
   const CustomElevatedButton(
       {Key? key,
       required this.text,
       required this.onPressed,
-      required this.disabled})
+      required this.secondary})
       : super(key: key);
 
   @override
@@ -20,7 +20,10 @@ class CustomElevatedButton extends StatelessWidget {
         onPressed: onPressed,
         child: Text(
           text,
-          style: Theme.of(context).textTheme.button,
+          style: TextStyle(
+              fontSize: 18.sp,
+              fontWeight: FontWeight.w700,
+              color: secondary ? ColorConstants.gray : ColorConstants.white),
         ),
         style: ButtonStyle(
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -29,7 +32,7 @@ class CustomElevatedButton extends StatelessWidget {
               ),
             ),
             backgroundColor:
-                MaterialStateProperty.all<Color>(ColorConstants.primary),
+                secondary ? MaterialStateProperty.all<Color>(ColorConstants.grayLight) : MaterialStateProperty.all<Color>(ColorConstants.primary),
             overlayColor: MaterialStateProperty.all<Color>(
                 ColorConstants.primaryLightGradient),
             minimumSize:

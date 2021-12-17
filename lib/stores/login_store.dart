@@ -21,7 +21,7 @@ abstract class _LoginStore with Store {
 
   @action
   Future<void> login(
-      {required void Function() onSuccess,
+      {required void Function(String) onSuccess,
       required void Function(String) onError}) async {
     if (!validate()) {
       return;
@@ -32,8 +32,9 @@ abstract class _LoginStore with Store {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
-      print(userCredential);
-      onSuccess();
+      if (userCredential.user != null) {
+        onSuccess(userCredential.user!.uid);
+      }
     } on FirebaseAuthException catch (e) {
       String error = "";
       if (e.code == 'user-not-found') {
@@ -49,7 +50,7 @@ abstract class _LoginStore with Store {
 
   @action
   Future<void> loginWithGoogle(
-      {required void Function() onSuccess,
+      {required void Function(String) onSuccess,
       required void Function(String) onError}) async {
     try {
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
@@ -62,7 +63,9 @@ abstract class _LoginStore with Store {
       UserCredential userCredential =
           await FirebaseAuth.instance.signInWithCredential(credential);
       print(userCredential);
-      onSuccess();
+      if (userCredential.user != null) {
+        onSuccess(userCredential.user!.uid);
+      }
     } on FirebaseAuthException catch (e) {
       onError('Váratlan hiba történt');
     } catch (e) {

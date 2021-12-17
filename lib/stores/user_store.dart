@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -151,13 +150,11 @@ abstract class _UserStore with Store {
   }
 
   @action
-  Future<void> getUser() async {
-    //TODO: ki kell találni hogyan kell deserializálni
-    // DatabaseEvent event = await FirebaseDatabase.instance.ref('users/Ujau3qSaQxMsjvKCCxDWpRqmHV43/data').once();
-    // print(event.snapshot.value);
-    // Map<String, dynamic> asd =  json.decode(event.snapshot.value.toString(), );
-    // user = User.fromJson(asd);
-    // print(user);
+  Future<void> getUser(String uid) async {
+    DataSnapshot snapshot = await FirebaseDatabase.instance.ref('users/$uid/data').get();
+    print(snapshot.value);
+    Map<String, dynamic> asd = Map<String, dynamic>.from(snapshot.value as Map);
+    user = User.fromJson(asd);
   }
 
   @action

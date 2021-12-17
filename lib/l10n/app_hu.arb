@@ -1,6 +1,6 @@
 {
   "@@locale": "hu",
-  "loginTitle": "App name",
+  "loginTitle": "Játszótér",
   "@loginTitle": {
     "description": "Page title",
     "context": "LoginPage"
@@ -45,6 +45,12 @@
   "@gender": {"description": ""},
   "dateOfBirth": "Születési dátum",
   "@dateOfBirth": {"description": ""},
+  "age": "Kor",
+  "@age": {"description": ""},
+  "yearsOld": "éves",
+  "@yearsOld": {"description": ""},
+  "monthOld": "hónapos",
+  "@monthOld": {"description": ""},
   "kids": "Gyerekek",
   "@kids": {"description": ""},
   "introduction": "Bemutatkozás",

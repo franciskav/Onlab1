@@ -36,7 +36,7 @@ class ThemeConfig {
               fontSize: 19.sp,
               fontWeight: FontWeight.normal,
               color: ColorConstants.white),
-          //textinput, text
+          //textinput, row
           bodyText1: TextStyle(
               fontSize: 18.sp,
               fontWeight: FontWeight.normal,

@@ -2,14 +2,13 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/l10n.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:onlab1/components/appBar/gradient_background.dart';
-import 'package:onlab1/components/button/custom_icon_button.dart';
-import 'package:onlab1/components/button/custom_text_button.dart';
-import 'package:onlab1/components/textField/custom_text_field.dart';
-import 'package:onlab1/components/button/custom_elevated_button.dart';
+import 'package:onlab1/components/row/name_row.dart';
+import 'package:onlab1/components/text/labeled_text.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:onlab1/config/color_constants.dart';
 import 'package:onlab1/config/route_names.dart';
+import 'package:onlab1/models/child.dart';
 import 'package:onlab1/stores/user_store.dart';
 import 'package:provider/provider.dart';
 
@@ -23,6 +22,37 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+
+  Widget listChildren(List<Child> children) {
+    String getAge(DateTime dateOfBirth) {
+       int days = (DateTime.now().difference(dateOfBirth).inDays);
+       if (days < 365) {
+          return '${(days/30).round()} hónapos';
+       }
+       return '${(days/365).round()} éves';
+    }
+
+    return Observer(builder: (_) {
+      return ListView.builder(
+          itemCount: children.length,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemBuilder: (BuildContext context, int index) {
+            return Padding(
+              padding: EdgeInsets.only(left: 5.w, bottom: 15.h),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('${children[index].name!} (${getAge(children[index].birthDate!)})', style: Theme.of(context).textTheme.bodyText1,),
+                  Text(children[index].introduction!, style: Theme.of(context).textTheme.bodyText1,),
+                ],
+              ),
+            );
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final _userStore = Provider.of<UserStore>(context);
@@ -35,6 +65,7 @@ class _ProfilePageState extends State<ProfilePage> {
         actions: [
           IconButton(
             onPressed: () {
+              _userStore.initTempUser();
               Navigator.pushNamed(context, Routes.editProfile);
             },
             icon: const Icon(Icons.edit_outlined),
@@ -46,42 +77,21 @@ class _ProfilePageState extends State<ProfilePage> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          ListTile(
-            contentPadding: EdgeInsets.symmetric(vertical: 25.h, horizontal: 15.h),
-            leading: CircleAvatar(
-                minRadius: 30.h,
-                maxRadius: 60.h,
-                backgroundImage: NetworkImage(_userStore.user.photo!,)),
-            title: Text(
-              _userStore.user.name!,
-              style: Theme.of(context).textTheme.headline3,
-            ),
-            tileColor: ColorConstants.grayLight,
-          ),
+          NameRow(name: _userStore.user.name!, photo: _userStore.user.photo!),
           Padding(
             padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 25.h),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Kor'.toUpperCase(), style: Theme.of(context).textTheme.caption,),
-                Text(_userStore.getUserAge, style: Theme.of(context).textTheme.bodyText1,),
+                LabeledText(label: l10n!.age, text: _userStore.getUserAge),
                 SizedBox(height: 15.h,),
-                Text('Nem'.toUpperCase(), style: Theme.of(context).textTheme.caption,),
-                Text(_userStore.getUserGender, style: Theme.of(context).textTheme.bodyText1,),
+                LabeledText(label: l10n.gender, text: _userStore.getUserGender),
                 SizedBox(height: 15.h,),
-                Text('Bemutatkozás'.toUpperCase(), style: Theme.of(context).textTheme.caption,),
-                Text(_userStore.getUserIntroduction, style: Theme.of(context).textTheme.bodyText1,),
+                LabeledText(label: l10n.introduction, text: _userStore.getUserIntroduction),
                 SizedBox(height: 15.h,),
-                Text('Kor'.toUpperCase(), style: Theme.of(context).textTheme.caption,),
-                Text(_userStore.getUserAge, style: Theme.of(context).textTheme.bodyText1,),
-                SizedBox(height: 15.h,),
-                Text('Gyerekek'.toUpperCase(), style: Theme.of(context).textTheme.caption,),
-                Text('Julcsi (3)', style: Theme.of(context).textTheme.bodyText1,),
-                Text('Mindig mosolygós kislány.', style: Theme.of(context).textTheme.bodyText1,),
-                SizedBox(height: 15.h,),
-                Text('Peti (1)', style: Theme.of(context).textTheme.bodyText1,),
-                Text('Izgő-mozgó kisfiú.', style: Theme.of(context).textTheme.bodyText1,),
+                Text(l10n.kids.toUpperCase(), style: Theme.of(context).textTheme.caption,),
+                listChildren(_userStore.user.children!),
               ],
             ),
           )

@@ -126,7 +126,7 @@ class _EditChildProfilePageState extends State<EditChildProfilePage> {
                     onPressed: () {
                       onSavePress(_userStore);
                     },
-                    disabled: false)
+                    secondary: false)
               ],
             ),
           ),

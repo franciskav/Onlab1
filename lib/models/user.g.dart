@@ -6,7 +6,7 @@ part of 'user.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-User _$UserFromJson(Map<String, dynamic> json) => User(
+User _$UserFromJson(Map json) => User(
       id: json['id'] as String?,
       email: json['email'] as String?,
       name: json['name'] as String?,
@@ -15,7 +15,7 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
           : DateTime.parse(json['birthDate'] as String),
       gender: $enumDecodeNullable(_$ParentGenderEnumMap, json['gender']),
       children: (json['children'] as List<dynamic>?)
-          ?.map((e) => Child.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => Child.fromJson(Map<String, dynamic>.from(e as Map)))
           .toList(),
       introduction: json['introduction'] as String?,
       photo: json['photo'] as String?,

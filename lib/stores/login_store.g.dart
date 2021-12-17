@@ -73,7 +73,7 @@ mixin _$LoginStore on _LoginStore, Store {
 
   @override
   Future<void> login(
-      {required void Function() onSuccess,
+      {required void Function(String) onSuccess,
       required void Function(String) onError}) {
     return _$loginAsyncAction
         .run(() => super.login(onSuccess: onSuccess, onError: onError));
@@ -84,7 +84,7 @@ mixin _$LoginStore on _LoginStore, Store {
 
   @override
   Future<void> loginWithGoogle(
-      {required void Function() onSuccess,
+      {required void Function(String) onSuccess,
       required void Function(String) onError}) {
     return _$loginWithGoogleAsyncAction.run(
         () => super.loginWithGoogle(onSuccess: onSuccess, onError: onError));

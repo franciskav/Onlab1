@@ -41,8 +41,8 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void login(UserStore store) {
-    _loginStore.login(onSuccess: () {
-      store.getUser();
+    _loginStore.login(onSuccess: (uid) {
+      store.getUser(uid);
       Navigator.pushReplacementNamed(context, Routes.main);
     }, onError: (error) {
       showSnackBar(error);
@@ -50,7 +50,8 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void loginWithGoogle(UserStore store) {
-    _loginStore.loginWithGoogle(onSuccess: () {
+    _loginStore.loginWithGoogle(onSuccess: (uid) {
+      store.getUser(uid);
       Navigator.pushReplacementNamed(context, Routes.main);
     }, onError: (error) {
       showSnackBar(error);
@@ -115,7 +116,7 @@ class _LoginPageState extends State<LoginPage> {
               CustomElevatedButton(
                 text: l10n.login,
                 onPressed: () {login(_userStore);},
-                disabled: false,
+                secondary: false,
               ),
               SizedBox(
                 height: 50.h,

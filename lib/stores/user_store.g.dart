@@ -100,8 +100,8 @@ mixin _$UserStore on _UserStore, Store {
   final _$getUserAsyncAction = AsyncAction('_UserStore.getUser');
 
   @override
-  Future<void> getUser() {
-    return _$getUserAsyncAction.run(() => super.getUser());
+  Future<void> getUser(String uid) {
+    return _$getUserAsyncAction.run(() => super.getUser(uid));
   }
 
   final _$updateUserAsyncAction = AsyncAction('_UserStore.updateUser');
