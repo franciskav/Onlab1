@@ -10,6 +10,7 @@ import 'package:onlab1/components/textField/custom_text_field.dart';
 import 'package:onlab1/components/button/custom_elevated_button.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onlab1/config/route_names.dart';
+import 'package:onlab1/stores/filter_store.dart';
 import 'package:onlab1/stores/login_store.dart';
 import 'package:onlab1/stores/user_store.dart';
 import 'package:provider/provider.dart';
@@ -40,19 +41,23 @@ class _LoginPageState extends State<LoginPage> {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(text)));
   }
 
-  void login(UserStore store) {
+  Future<void> onSuccess(UserStore userStore, FilterStore filterStore, String uid) async {
+    await userStore.getUser(uid);
+    await filterStore.getFilter(uid);
+    Navigator.pushReplacementNamed(context, Routes.main);
+  }
+
+  void login(UserStore userStore, FilterStore filterStore) {
     _loginStore.login(onSuccess: (uid) {
-      store.getUser(uid);
-      Navigator.pushReplacementNamed(context, Routes.main);
+      onSuccess(userStore, filterStore, uid);
     }, onError: (error) {
       showSnackBar(error);
     });
   }
 
-  void loginWithGoogle(UserStore store) {
+  void loginWithGoogle(UserStore userStore, FilterStore filterStore) {
     _loginStore.loginWithGoogle(onSuccess: (uid) {
-      store.getUser(uid);
-      Navigator.pushReplacementNamed(context, Routes.main);
+      onSuccess(userStore, filterStore, uid);
     }, onError: (error) {
       showSnackBar(error);
     });
@@ -61,6 +66,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final _userStore = Provider.of<UserStore>(context);
+    final _filterStore = Provider.of<FilterStore>(context);
     final L10n? l10n = L10n.of(context);
 
     return Scaffold(
@@ -115,7 +121,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               CustomElevatedButton(
                 text: l10n.login,
-                onPressed: () {login(_userStore);},
+                onPressed: () {login(_userStore, _filterStore);},
                 secondary: false,
               ),
               SizedBox(
@@ -148,7 +154,7 @@ class _LoginPageState extends State<LoginPage> {
                 height: 50.h,
               ),
               CustomIconButton(
-                  onPressed: () {loginWithGoogle(_userStore);},
+                  onPressed: () {loginWithGoogle(_userStore, _filterStore);},
                   type: Type.google,
                   disabled: false),
               SizedBox(

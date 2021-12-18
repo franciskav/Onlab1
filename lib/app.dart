@@ -10,6 +10,8 @@ import 'package:onlab1/pages/loading_page.dart';
 import 'package:onlab1/pages/login_page.dart';
 import 'package:flutter_gen/gen_l10n/l10n.dart';
 import 'package:onlab1/pages/main_page.dart';
+import 'package:onlab1/stores/filter_store.dart';
+import 'package:onlab1/stores/login_store.dart';
 import 'package:onlab1/stores/user_store.dart';
 import 'package:provider/provider.dart';
 
@@ -54,7 +56,8 @@ class _MyApp extends State<MyApp> {
     //   }
     return MultiProvider(
       providers: [
-        Provider<UserStore>(create: (_) => UserStore())
+        Provider<UserStore>(create: (_) => UserStore()),
+        Provider<FilterStore>(create: (_) => FilterStore()),
       ],
       child: ScreenUtilInit(
           designSize: const Size(414, 896),

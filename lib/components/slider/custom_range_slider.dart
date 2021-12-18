@@ -7,41 +7,26 @@ class CustomRangeSlider extends StatefulWidget {
   final int min;
   final int max;
   final String? metric;
+  final RangeValues currentValues;
+  final void Function(RangeValues)? onChanged;
+  final void Function(RangeValues)? onChangedEnd;
 
   const CustomRangeSlider(
       {Key? key,
       required this.label,
       required this.min,
       required this.max,
+      required this.currentValues,
+      required this.onChanged,
+      required this.onChangedEnd,
       this.metric})
       : super(key: key);
 
   @override
-  _CustomRangeSlider createState() =>
-      _CustomRangeSlider(label, min, max, this.metric);
+  _CustomRangeSlider createState() => _CustomRangeSlider();
 }
 
 class _CustomRangeSlider extends State<CustomRangeSlider> {
-  String label;
-  int min;
-  int max;
-  String? metric;
-  late RangeValues currentValues;
-
-  _CustomRangeSlider(this.label, this.min, this.max, this.metric) {
-    currentValues = RangeValues(min.toDouble(), max.toDouble());
-  }
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -50,7 +35,7 @@ class _CustomRangeSlider extends State<CustomRangeSlider> {
         Padding(
           padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 15.w),
           child: Text(
-            '$label ${currentValues.start.toInt()}-${currentValues.end.toInt()} ${metric ?? ""}'
+            '${widget.label} ${widget.currentValues.start.toInt()}-${widget.currentValues.end.toInt()} ${widget.metric ?? ""}'
                 .toUpperCase(),
             style: Theme.of(context).textTheme.caption,
           ),
@@ -66,19 +51,16 @@ class _CustomRangeSlider extends State<CustomRangeSlider> {
             valueIndicatorTextStyle: Theme.of(context).textTheme.bodyText1,
           ),
           child: RangeSlider(
-            values: currentValues,
-            min: min.toDouble(),
-            max: max.toDouble(),
-            divisions: (max - min),
+            values: widget.currentValues,
+            min: widget.min.toDouble(),
+            max: widget.max.toDouble(),
+            divisions: (widget.max - widget.min),
             labels: RangeLabels(
-              currentValues.start.toInt().toString(),
-              currentValues.end.toInt().toString(),
+              widget.currentValues.start.toInt().toString(),
+              widget.currentValues.end.toInt().toString(),
             ),
-            onChanged: (RangeValues values) {
-              setState(() {
-                currentValues = values;
-              });
-            },
+            onChanged: widget.onChanged,
+            onChangeEnd: widget.onChangedEnd,
           ),
         )
       ],

@@ -90,6 +90,14 @@ mixin _$LoginStore on _LoginStore, Store {
         () => super.loginWithGoogle(onSuccess: onSuccess, onError: onError));
   }
 
+  final _$logoutAsyncAction = AsyncAction('_LoginStore.logout');
+
+  @override
+  Future<void> logout({required void Function() onSignedOut}) {
+    return _$logoutAsyncAction
+        .run(() => super.logout(onSignedOut: onSignedOut));
+  }
+
   @override
   String toString() {
     return '''

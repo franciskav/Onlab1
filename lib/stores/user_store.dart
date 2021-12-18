@@ -27,6 +27,11 @@ abstract class _UserStore with Store {
   int childIndex = -1;
 
   @computed
+  String get getUserId {
+    return user.id!;
+  }
+
+  @computed
   String get tempDateOfBirth {
     return tempUser.birthDate != null
         ? DateFormat('yyyy.MM.dd').format(tempUser.birthDate!)
@@ -75,7 +80,15 @@ abstract class _UserStore with Store {
 
   @action
   void initTempUser() {
-    tempUser = user;
+    tempUser = User(
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        birthDate: user.birthDate,
+        gender: user.gender,
+        children: user.children,
+        introduction: user.introduction,
+        photo: user.photo);
   }
 
   @action
@@ -151,16 +164,17 @@ abstract class _UserStore with Store {
 
   @action
   Future<void> getUser(String uid) async {
-    DataSnapshot snapshot = await FirebaseDatabase.instance.ref('users/$uid/data').get();
+    DataSnapshot snapshot =
+        await FirebaseDatabase.instance.ref('users/$uid/data').get();
     print(snapshot.value);
-    Map<String, dynamic> asd = Map<String, dynamic>.from(snapshot.value as Map);
-    user = User.fromJson(asd);
+    Map<String, dynamic> mappedValue =
+        Map<String, dynamic>.from(snapshot.value as Map);
+    user = User.fromJson(mappedValue);
   }
 
   @action
   Future<void> updateUser(
       void Function() onSuccess, void Function(String) onError) async {
-    print(tempUser.toJson());
     if (validateUser(tempUser)) {
       try {
         if (!tempUser.photo!.startsWith('http')) {
@@ -173,7 +187,6 @@ abstract class _UserStore with Store {
           setTempUser(photo: downloadUrl);
         }
         user = tempUser;
-        //print('USER ${tempUser.toJson()}');
         await FirebaseDatabase.instance
             .ref('users/${user.id}/data')
             .set(user.toJson());

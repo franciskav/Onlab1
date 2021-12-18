@@ -58,5 +58,15 @@
   "picture": "Fotó",
   "@picture": {"description": ""},
   "save": "Metés",
-  "@save": {"description": ""}
+  "@save": {"description": ""},
+  "distance": "Távolság",
+  "@distance": {"description": ""},
+  "childrenAge": "Gyerekek kora",
+  "@childrenAge": {"description": ""},
+  "childrenGender": "Gyerekek neme",
+  "@childrenGender": {"description": ""},
+  "year": "Év",
+  "@year": {"description": ""},
+  "km": "km",
+  "@km": {"description": ""}
 }

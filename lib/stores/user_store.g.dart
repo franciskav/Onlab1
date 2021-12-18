@@ -9,6 +9,12 @@ part of 'user_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$UserStore on _UserStore, Store {
+  Computed<String>? _$getUserIdComputed;
+
+  @override
+  String get getUserId => (_$getUserIdComputed ??=
+          Computed<String>(() => super.getUserId, name: '_UserStore.getUserId'))
+      .value;
   Computed<String>? _$tempDateOfBirthComputed;
 
   @override
@@ -209,6 +215,7 @@ mixin _$UserStore on _UserStore, Store {
 user: ${user},
 tempUser: ${tempUser},
 tempChild: ${tempChild},
+getUserId: ${getUserId},
 tempDateOfBirth: ${tempDateOfBirth},
 tempChildDateOfBirth: ${tempChildDateOfBirth},
 getChildren: ${getChildren},

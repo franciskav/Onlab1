@@ -16,6 +16,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onlab1/config/route_names.dart';
 import 'package:onlab1/enums/parent_gender.dart';
 import 'package:onlab1/models/child.dart';
+import 'package:onlab1/models/edit_page_arguments.dart';
 import 'package:onlab1/stores/user_store.dart';
 import 'package:provider/provider.dart';
 
@@ -38,9 +39,13 @@ class _EditProfilePageState extends State<EditProfilePage> {
     setState(() {});
   }
 
-  void onSavePress(UserStore _userStore) {
+  void onSavePress(UserStore _userStore, EditPageArguments args) {
     _userStore.updateUser(() {
-      Navigator.pushReplacementNamed(context, Routes.main);
+      if (args.isRegister == true) {
+        Navigator.pushReplacementNamed(context, Routes.main);
+      } else {
+        Navigator.pop(context);
+      }
     }, (error) {
       showSnackBar(error);
     });
@@ -76,6 +81,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   Widget build(BuildContext context) {
     final _userStore = Provider.of<UserStore>(context);
     final L10n? l10n = L10n.of(context);
+    final args = ModalRoute.of(context)!.settings.arguments as EditPageArguments;
 
     final Map<String, TextEditingController> _textControllers = {
       "name": TextEditingController(text: _userStore.tempUser.name),
@@ -195,7 +201,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 CustomElevatedButton(
                     text: l10n.save,
                     onPressed: () {
-                      onSavePress(_userStore);
+                      onSavePress(_userStore, args);
                     },
                     secondary: false)
               ],

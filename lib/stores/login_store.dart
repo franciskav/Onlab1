@@ -73,6 +73,11 @@ abstract class _LoginStore with Store {
     }
   }
 
+  @action
+  Future<void> logout({required void Function() onSignedOut}) async {
+    await FirebaseAuth.instance.signOut();
+    onSignedOut();
+  }
 
   bool validate() {
     bool valid = true;

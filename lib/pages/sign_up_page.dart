@@ -10,6 +10,9 @@ import 'package:onlab1/components/textField/custom_text_field.dart';
 import 'package:onlab1/components/button/custom_elevated_button.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:onlab1/config/route_names.dart';
+import 'package:onlab1/models/edit_page_arguments.dart';
+import 'package:onlab1/models/user.dart';
+import 'package:onlab1/stores/filter_store.dart';
 import 'package:onlab1/stores/sign_up_store.dart';
 import 'package:onlab1/stores/user_store.dart';
 import 'package:provider/provider.dart';
@@ -40,21 +43,25 @@ class _SignUpPageState extends State<SignUpPage> {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(text)));
   }
 
-  void signUp(UserStore store) {
+  void onSuccess(UserStore userStore, FilterStore filterStore, User user) {
+    userStore.setNewUSer(user);
+    filterStore.initFilter(user.id!);
+    Navigator.pushReplacementNamed(context, Routes.editProfile,
+        arguments: EditPageArguments(true));
+    userStore.initTempUser();
+  }
+
+  void signUp(UserStore userStore, FilterStore filterStore) {
     _signUpStore.signUp(onSuccess: (user) {
-      store.setNewUSer(user);
-      Navigator.pushReplacementNamed(context, Routes.editProfile);
-      store.initTempUser();
+      onSuccess(userStore, filterStore, user);
     }, onError: (error) {
       showSnackBar(error);
     });
   }
 
-  void signUpWithGoogle(UserStore store) {
+  void signUpWithGoogle(UserStore userStore, FilterStore filterStore) {
     _signUpStore.signUpWithGoogle(onSuccess: (user) {
-      store.setNewUSer(user);
-      Navigator.pushReplacementNamed(context, Routes.editProfile);
-      store.initTempUser();
+      onSuccess(userStore, filterStore, user);
     }, onError: (error) {
       showSnackBar(error);
     });
@@ -63,6 +70,7 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     final _userStore = Provider.of<UserStore>(context);
+    final _filterStore = Provider.of<FilterStore>(context);
     final L10n? l10n = L10n.of(context);
 
     return Scaffold(
@@ -136,7 +144,7 @@ class _SignUpPageState extends State<SignUpPage> {
               CustomElevatedButton(
                 text: l10n.signUp,
                 onPressed: () {
-                  signUp(_userStore);
+                  signUp(_userStore, _filterStore);
                 },
                 secondary: false,
               ),
@@ -171,7 +179,7 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
               CustomIconButton(
                   onPressed: () {
-                    signUpWithGoogle(_userStore);
+                    signUpWithGoogle(_userStore, _filterStore);
                   },
                   type: Type.google,
                   disabled: false),
