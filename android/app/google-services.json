@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "153043837466",
+    "project_id": "onlab1",
+    "storage_bucket": "onlab1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:153043837466:android:e973b89df78a55e91067a3",
+        "android_client_info": {
+          "package_name": "hu.franciskav.onlab1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "153043837466-buhlonsh58u3dcr1ccurelapp7c89ljs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7b8Rp58oXcxTrjU9dUPK5zsMb9ypDaz0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "153043837466-buhlonsh58u3dcr1ccurelapp7c89ljs.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "153043837466-5isre0ftdd7g4vgsoc5cja1gke5fv0kh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "hu.franciskav.onlab1"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
