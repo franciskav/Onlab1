@@ -12,6 +12,7 @@ import 'package:flutter_gen/gen_l10n/l10n.dart';
 import 'package:onlab1/pages/main_page.dart';
 import 'package:onlab1/stores/filter_store.dart';
 import 'package:onlab1/stores/login_store.dart';
+import 'package:onlab1/stores/notation_store.dart';
 import 'package:onlab1/stores/user_store.dart';
 import 'package:provider/provider.dart';
 
@@ -29,6 +30,23 @@ class _MyApp extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        Provider<UserStore>(create: (_) => UserStore()),
+        Provider<FilterStore>(create: (_) => FilterStore()),
+        Provider<NotationStore>(create: (_) => NotationStore()),
+      ],
+      child: ScreenUtilInit(
+          designSize: const Size(414, 896),
+          builder: () => MaterialApp(
+              debugShowCheckedModeBanner: false,
+              theme: ThemeConfig.createTheme(),
+              localizationsDelegates: L10n.localizationsDelegates,
+              supportedLocales: L10n.supportedLocales,
+              home: const LoginPage(),
+              //home: const EditProfilePage(),
+              routes: Routes.routes)),
+    );
     //     return MaterialApp(
     //       debugShowCheckedModeBanner: false,
     //       navigatorKey: _navigatorKey,
@@ -54,22 +72,5 @@ class _MyApp extends State<MyApp> {
     //       routes: Routes.routes,
     //     );
     //   }
-    return MultiProvider(
-      providers: [
-        Provider<UserStore>(create: (_) => UserStore()),
-        Provider<FilterStore>(create: (_) => FilterStore()),
-      ],
-      child: ScreenUtilInit(
-          designSize: const Size(414, 896),
-          builder: () => MaterialApp(
-              title: 'Flutter Demo',
-              debugShowCheckedModeBanner: false,
-              theme: ThemeConfig.createTheme(),
-              localizationsDelegates: L10n.localizationsDelegates,
-              supportedLocales: L10n.supportedLocales,
-              home: const LoginPage(),
-              //home: const EditProfilePage(),
-              routes: Routes.routes)),
-    );
   }
 }

@@ -105,40 +105,44 @@ class _ProfilePageState extends State<ProfilePage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           NameRow(name: _userStore.user.name!, photo: _userStore.user.photo!),
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 25.h),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Observer(builder: (_) {
-                  return LabeledText(
-                      label: l10n.age, text: _userStore.getUserAge);
-                }),
-                SizedBox(
-                  height: 15.h,
+          Expanded(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 25.h),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Observer(builder: (_) {
+                      return LabeledText(
+                          label: l10n.age, text: _userStore.getUserAge);
+                    }),
+                    SizedBox(
+                      height: 15.h,
+                    ),
+                    Observer(builder: (_) {
+                      return LabeledText(
+                          label: l10n.gender, text: _userStore.getUserGender);
+                    }),
+                    SizedBox(
+                      height: 15.h,
+                    ),
+                    Observer(builder: (_) {
+                      return LabeledText(
+                          label: l10n.introduction,
+                          text: _userStore.getUserIntroduction);
+                    }),
+                    SizedBox(
+                      height: 15.h,
+                    ),
+                    Text(
+                      l10n.kids.toUpperCase(),
+                      style: Theme.of(context).textTheme.caption,
+                    ),
+                    listChildren(_userStore.user.children!),
+                  ],
                 ),
-                Observer(builder: (_) {
-                  return LabeledText(
-                      label: l10n.gender, text: _userStore.getUserGender);
-                }),
-                SizedBox(
-                  height: 15.h,
-                ),
-                Observer(builder: (_) {
-                  return LabeledText(
-                      label: l10n.introduction,
-                      text: _userStore.getUserIntroduction);
-                }),
-                SizedBox(
-                  height: 15.h,
-                ),
-                Text(
-                  l10n.kids.toUpperCase(),
-                  style: Theme.of(context).textTheme.caption,
-                ),
-                listChildren(_userStore.user.children!),
-              ],
+              ),
             ),
           )
         ],
