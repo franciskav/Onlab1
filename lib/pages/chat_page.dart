@@ -1,13 +1,6 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/l10n.dart';
 import 'package:onlab1/components/appBar/gradient_background.dart';
-import 'package:onlab1/components/button/custom_icon_button.dart';
-import 'package:onlab1/components/button/custom_text_button.dart';
-import 'package:onlab1/components/textField/custom_text_field.dart';
-import 'package:onlab1/components/button/custom_elevated_button.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({Key? key,}) : super(key: key);

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:onlab1/pages/chat_page.dart';
-import 'package:onlab1/pages/child_profile_page.dart';
 import 'package:onlab1/pages/edit_child_profile_page.dart';
 import 'package:onlab1/pages/edit_profile_page.dart';
 import 'package:onlab1/pages/login_page.dart';
@@ -24,7 +23,6 @@ class Routes {
     Routes.main: (context) => MainPage(),
     Routes.profile: (context) => ProfilePage(),
     Routes.editProfile: (context) => EditProfilePage(),
-    Routes.childProfile: (context) => ChildProfilePage(),
     Routes.editChildProfile: (context) => EditChildProfilePage(),
     Routes.chat: (context) => ChatPage(),
   };

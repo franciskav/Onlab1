@@ -1,10 +1,7 @@
-import 'dart:ui';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/l10n.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:intl/intl.dart';
 import 'package:onlab1/components/appBar/gradient_background.dart';
 import 'package:onlab1/components/button/custom_dropdown.dart';
 import 'package:onlab1/components/button/custom_image_button.dart';
